@@ -14,7 +14,7 @@ namespace Model.Service
                 throw new InvalidParameterException("Username/Password cannot be empty.");
             }
 
-            var dt = AccountDb.Login(username, password);
+            var dt = GetDbTable(username, password);
             var dbErrorCode = dt.Rows[0].Field<int>("ErrorCode");
             if (dbErrorCode.Equals(0))
             {
@@ -24,5 +24,11 @@ namespace Model.Service
             DebugHelper.Error($"{username} login failed. DbErrorCode:{dbErrorCode}");
             return false;
         }
+
+        public virtual DataTable GetDbTable(string username, string password)
+        {
+            return AccountDb.Login(username, password);
+        }
     }
+
 }
